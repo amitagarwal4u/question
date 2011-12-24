@@ -1,0 +1,15 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>List of Questions</title>
+</head>
+<body>
+    <h1>Contact us</h1>
+        {% for question in questions.all %}
+            {{ question.question }} 
+            <a href="question/vote-question/{{question.id}}/upvote"><img src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
+            <a href="question/vote-question/{{question.id}}/downvote"><img src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
+            <br>    
+        {% endfor %}
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
+<html lang="en">
+<head>
+    <title>Contact us</title>
+</head>
+<body>
+    <h1>Contact us</h1>
+    <form action="." method="POST">
+        {% csrf_token %}
+        {{ group }}
+        {{ question.question }}
+        {{ question.content }}
+        {{ question.score }}
+        <a href="../vote-question/{{question.id}}/upvote"><img src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
+        <a href="../vote-question/{{question.id}}/downvote"><img src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
+        {{ question.vote_count }} 
+        <p> Responses :-</p>
+        {% for response in responses.all %}
+            {{forloop.counter}} {{ response }} 
+            <br>    
+        {% endfor %}
+        <table>
+            {{ add_response_form.as_table }}
+        </table>
+    <p><input type="submit" value="Submit"/></p>
+    </form>
+</body>
+</html>
