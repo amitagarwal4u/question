@@ -23,12 +23,13 @@ class Question(models.Model):
     created = models.DateTimeField(default=datetime.now)
     
     score = models.IntegerField(editable=False, default=0)
-    vote_count = models.IntegerField(editable=False, default=0)
+    vote_up_count = models.IntegerField(editable=False, default=0)
+    vote_down_count = models.IntegerField(editable=False, default=0)
     
     def update_score(self, value):
         result = value 
         #self.score = result["score"]
-        self.vote_count = self.vote_count + result
+        self.vote_up_count = self.vote_up_count + result
         self.save()
     
     @property
@@ -59,12 +60,14 @@ class Response(models.Model):
     created = models.DateTimeField(default=datetime.now)
     
     score = models.IntegerField(editable=False, default=0)
-    vote_count = models.IntegerField(editable=False, default=0)
+    vote_up_count = models.IntegerField(editable=False, default=0)
+    vote_down_count = models.IntegerField(editable=False, default=0)
     
     def update_score(self):
         result = Vote.objects.get_score(self)
         self.score = result["score"]
-        self.vote_count = result["num_votes"]
+        self.vote_up_count = result["num_votes"]
+        self.vote_down_count = result["num_votes"]
         self.save()
     
     def accept(self):

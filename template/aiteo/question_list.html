@@ -2,14 +2,65 @@
 <html lang="en">
 <head>
     <title>List of Questions</title>
+<script type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js">
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+            $('.buttondown').click(function () {
+                var thisobject = $(this);
+                var id = thisobject.attr("id");
+                var completeurl = "question/vote-question/" + id + "_" + id + "/downvote/";
+                $.ajax({
+                    type: "POST",
+                    url: completeurl,
+                    data: "amit",
+                    success: function ( response ) {
+                        response = $.trim( response );
+                        $.ajaxSetup({ cache: false});
+                        $(".questd#"+id+"d").html(response);
+                        }
+                    }); 
+                return false;
+                });
+
+
+            
+            $('.buttonup').click(function () {
+                var thisobject = $(this);
+                var id = thisobject.attr("id");
+                var completeurl = "question/vote-question/" + id + "_" + id + "/upvote/";
+                $.ajax({
+                    type: "POST",
+                    url: completeurl,
+                    data: "amit",
+                    success: function ( response ) {
+                        response = $.trim( response );
+                        $.ajaxSetup({ cache: false});
+                        $(".questu#"+id).html(response);
+                        }
+                    }); 
+                return false;
+                });
+
+    
+    });
+
+</script>
+
+
 </head>
 <body>
-    <h1>Contact us</h1>
-        {% for question in questions.all %}
-            {{ question.question }} 
-            <a href="question/vote-question/{{question.id}}/upvote"><img src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
-            <a href="question/vote-question/{{question.id}}/downvote"><img src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
-            <br>    
-        {% endfor %}
+    <h1>List of Questions</h1>
+    {% for question in questions.all %}
+    <h4> 
+        <a href="question/{{question.id}}">{{ question.question }} <a>
+            <span class = "questu" id= {{ question.id}}> {{ question.vote_up_count }} </span> 
+            <a href="#"><img class = "buttonup" id = {{question.id}}  src="{{ MEDIA_URL }}images.png" alt="up"></a> 
+            <a href="#"><img class = "buttondown" id = {{question.id}}  src="{{MEDIA_URL }}images.png" alt="down"></a> 
+            <span class = "questd" id= "{{ question.id}}d"> {{ question.vote_down_count }} </span> 
+            <br/> </h4>
+    {% endfor %}
 </body>
 </html>

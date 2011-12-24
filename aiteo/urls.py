@@ -22,7 +22,7 @@ urlpatterns = patterns("",
     ),
     
     # Question voting
-    url(r"^question/(?P<object1>vote-question)/(?P<object_id>\d+)/(?P<direction>up|down|clear)vote/$",
+    url(r"^question/(?P<object1>vote-\w+)/(?P<object_id>\w+)/(?P<direction>up|down|clear)vote/$",
         "aiteo.views.vote_on", 
         name="aiteo_question_vote"
     ),

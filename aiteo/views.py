@@ -106,23 +106,31 @@ def question_detail(request, question_id, **kwargs):
 
 def vote_on(request, object1, object_id, direction):
     print object1, object_id, direction
+    [q_id, a_id] = object_id.split("_")
+    print q_id, a_id
     if object1 == "vote-question":
-        question = Question.objects.get(pk = object_id)
+        question = Question.objects.get(pk = q_id)
         if direction == "up":
-            question.vote_count = question.vote_count + 1
+            question.vote_up_count = question.vote_up_count + 1
+            question.save()
+            return HttpResponse(question.vote_up_count)
         else:
-            question.vote_count = question.vote_count - 1
-        question.save()
+            question.vote_down_count = question.vote_down_count - 1
+            question.save()
+            return HttpResponse(question.vote_down_count)
     else:
-        response = Response.objects.get(pk = object_id)
+        question = Question.objects.get(pk = q_id)
+        response = question.responses.get(pk = a_id)
         if direction == "up":
-            response.vote_count = response.vote_count + 1
+            response.vote_up_count = response.vote_up_count + 1
+            response.save()
+            return HttpResponse(response.vote_up_count)
         else:
-            response.vote_count = response.vote_count - 1
-        response.save()
+            response.vote_down_count = response.vote_down_count - 1
+            response.save()
+            return HttpResponse(response.vote_down_count)
     #return render_to_response("aiteo/question_detail.html")
-    return HttpResponseRedirect("/aiteo/question/"+object_id)
-
+#    return HttpResponseRedirect("/aiteo/question/"+object_id)
             
 
 

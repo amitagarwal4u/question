@@ -1,23 +1,114 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN">
 <html lang="en">
 <head>
-    <title>Contact us</title>
+    <title>Responses</title>
+<script type="text/javascript"
+    src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js">
+</script>
+<script type="text/javascript">
+    $(document).ready(function() {
+
+            $('.buttondown').click(function () {
+                var thisobject = $(this);
+                var id = thisobject.attr("id");
+                var completeurl = "../vote-question/" + id  + "_" + id + "/downvote/";
+                $.ajax({
+                    type: "POST",
+                    url: completeurl,
+                    data: "amit",
+                    success: function ( response ) {
+                        response = $.trim( response );
+                        $.ajaxSetup({ cache: false});
+                        $(".questd#"+id+"d").html(response);
+                        }
+                    }); 
+                return false;
+                });
+
+
+            
+            $('.buttonup').click(function () {
+                var thisobject = $(this);
+                var id = thisobject.attr("id");
+                var completeurl = "../vote-question/" + id  + "_" + id + "/upvote/";
+                $.ajax({
+                    type: "POST",
+                    url: completeurl,
+                    data: "amit",
+                    success: function ( response ) {
+                        response = $.trim( response );
+                        $.ajaxSetup({ cache: false});
+                        $(".questu#"+id).html(response);
+                        }
+                    }); 
+                return false;
+                });
+
+            $('.rbuttondown').click(function () {
+                var thisobject = $(this);
+                var id = thisobject.attr("id");
+                var completeurl = "../vote-response/" + id + "/downvote/";
+                $.ajax({
+                    type: "POST",
+                    url: completeurl,
+                    data: "amit",
+                    success: function ( response ) {
+                        response = $.trim( response );
+                        $.ajaxSetup({ cache: false});
+                        $(".responsed#"+id+"rd").html(response);
+                        }
+                    }); 
+                return false;
+                });
+
+
+            
+            $('.rbuttonup').click(function () {
+                var thisobject = $(this);
+                var id = thisobject.attr("id");
+                var completeurl = "../vote-response/" + id + "/upvote/";
+                $.ajax({
+                    type: "POST",
+                    url: completeurl,
+                    data: "amit",
+                    success: function ( response ) {
+                        response = $.trim( response );
+                        $.ajaxSetup({ cache: false});
+                        $(".responseu#"+id+"ru").html(response);
+                        }
+                    }); 
+                return false;
+                });
+
+
+    
+    });
+
+</script>
+
+
+
 </head>
 <body>
-    <h1>Contact us</h1>
+    <h1>Response</h1>
     <form action="." method="POST">
         {% csrf_token %}
-        {{ group }}
         {{ question.question }}
         {{ question.content }}
-        {{ question.score }}
-        <a href="../vote-question/{{question.id}}/upvote"><img src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
-        <a href="../vote-question/{{question.id}}/downvote"><img src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
-        {{ question.vote_count }} 
+        <span class = "questu" id= {{ question.id}}> {{ question.vote_up_count }} </span> 
+        <a href="#"><img class = "buttonup" id = {{question.id}}  src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
+        <a href="#"><img class = "buttondown" id = {{question.id}}  src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="down"></a> 
+        <span class = "questd" id= "{{ question.id}}d"> {{ question.vote_down_count }} </span> 
         <p> Responses :-</p>
         {% for response in responses.all %}
-            {{forloop.counter}} {{ response }} 
-            <br>    
+        {{forloop.counter}}) 
+        
+        {{ response }} 
+        <span class = "responseu" id= "{{question.id}}_{{response.id}}ru"> {{ response.vote_up_count }} </span> 
+        <a href="#"><img class = "rbuttonup" id = "{{question.id}}_{{response.id}}"  src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="up"></a> 
+        <a href="#"><img class = "rbuttondown" id = "{{question.id}}_{{response.id}}"  src="/home/amit/Desktop/temp/question/template/aiteo/images.jpg" alt="down"></a> 
+        <span class = "responsed" id= "{{question.id}}_{{response.id}}rd"> {{ response.vote_down_count }} </span> 
+        <br>    
         {% endfor %}
         <table>
             {{ add_response_form.as_table }}
